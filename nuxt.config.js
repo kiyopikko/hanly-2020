@@ -1,3 +1,5 @@
+const baseURL = 'https://hanly.herokuapp.com/'
+
 export default {
   /*
    ** Nuxt rendering mode
@@ -61,7 +63,12 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL,
+  },
+  env: {
+    baseURL,
+  },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
