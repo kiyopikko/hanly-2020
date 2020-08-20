@@ -36,7 +36,8 @@ export default {
   },
   methods: {
     logout() {
-      console.log('logout')
+      window.localStorage.setItem('hanly_access_token', '')
+      this.$router.push('/')
     },
   },
 }
