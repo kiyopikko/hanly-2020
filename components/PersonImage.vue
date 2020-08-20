@@ -55,7 +55,6 @@ export default {
   methods: {
     handleUploaded(res) {
       this.isUploading = false
-      this.$emit('uploaded', res.face_image_url)
     },
   },
 }
