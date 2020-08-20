@@ -21,4 +21,7 @@ export const mutations = {
     state.nickname = nickname
     state.pin = pin
   },
+  updateImage(state, { face_image_url }) {
+    state.face_image_url = face_image_url
+  },
 }
