@@ -52,7 +52,6 @@ export default {
     return {
       isPinning: false,
       friends: [],
-      face_image_url: '', // 自分の顔写真、実際はサーバーからとってくる
     }
   },
   computed: {
@@ -65,6 +64,9 @@ export default {
           : '',
         img: f.face_image_url,
       }))
+    },
+    face_image_url() {
+      return this.$store.getters['me/face_image_url']
     },
   },
   methods: {
