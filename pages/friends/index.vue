@@ -1,38 +1,40 @@
 <template>
   <div>
-    <nuxt-link class="user" to="/me">
-      <img
-        class="user__icon"
-        :src="
-          face_image_url ||
-          'https://res.cloudinary.com/kiyopikko/image/upload/v1561617116/empty-user-image_o4ll8m.png'
-        "
-      />
-      <div class="user__txt">マイページ</div>
-    </nuxt-link>
-    <div v-if="getFriends.length > 0" class="friends">
-      <h2 class="headline">友だち</h2>
-      <ul>
-        <FriendItem
-          v-for="friend in getFriends"
-          :key="friend.id"
-          :to="`/friends/${friend.id}`"
-          :nickname="friend.nickname"
-          :date="friend.date"
-          :img="friend.img"
+    <pull-to :top-config="topConfig" :top-load-method="refresh">
+      <nuxt-link class="user" to="/me">
+        <img
+          class="user__icon"
+          :src="
+            face_image_url ||
+            'https://res.cloudinary.com/kiyopikko/image/upload/v1561617116/empty-user-image_o4ll8m.png'
+          "
         />
-      </ul>
-    </div>
-    <div v-else class="noFriends">
-      <img
-        src="https://res.cloudinary.com/kiyopikko/image/upload/v1562219254/hanly-gray_2x_pdy6qo.png"
-        alt
-        :width="178"
-      />
-      <p class="txt">
-        右下のボタンからピンを打って近くの友だちを探しましょう
-      </p>
-    </div>
+        <div class="user__txt">マイページ</div>
+      </nuxt-link>
+      <div v-if="getFriends.length > 0" class="friends">
+        <h2 class="headline">友だち</h2>
+        <ul>
+          <FriendItem
+            v-for="friend in getFriends"
+            :key="friend.id"
+            :to="`/friends/${friend.id}`"
+            :nickname="friend.nickname"
+            :date="friend.date"
+            :img="friend.img"
+          />
+        </ul>
+      </div>
+      <div v-else class="noFriends">
+        <img
+          src="https://res.cloudinary.com/kiyopikko/image/upload/v1562219254/hanly-gray_2x_pdy6qo.png"
+          alt
+          :width="178"
+        />
+        <p class="txt">
+          右下のボタンからピンを打って近くの友だちを探しましょう
+        </p>
+      </div>
+    </pull-to>
     <button
       class="pin"
       :class="isPinning ? 'isPinning' : ''"
@@ -43,7 +45,12 @@
 </template>
 
 <script>
+import PullTo from 'vue-pull-to'
+
 export default {
+  components: {
+    PullTo,
+  },
   async fetch() {
     const { data } = await this.$axios.get('/api/friends')
     this.friends = data
@@ -68,6 +75,13 @@ export default {
     face_image_url() {
       return this.$store.getters['me/face_image_url']
     },
+    topConfig: () => ({
+      pullText: '引っ張って更新',
+      triggerText: '手放して更新',
+      loadingText: '読み込み中...',
+      doneText: '読み込み完了',
+      failText: '読み込み失敗',
+    }),
   },
   methods: {
     async pin() {
@@ -79,6 +93,10 @@ export default {
       })
       this.friends = this.friends.concat(data)
       this.isPinning = false
+    },
+    async refresh(loaded) {
+      await this.$fetch()
+      loaded('done')
     },
   },
 }
