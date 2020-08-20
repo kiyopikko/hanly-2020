@@ -43,25 +43,15 @@
 </template>
 
 <script>
-// 友だちデータ、サーバーからくるデータを模したもの
-const dummyFriends = [
-  {
-    id: 'dummy-id',
-    nickname: 'dummy-nickname',
-    face_image_url: '',
-    pin: {
-      datetime: new Date(),
-      latitude: 0,
-      longitude: 0,
-    },
-  },
-]
-
 export default {
+  async fetch() {
+    const { data } = await this.$axios.get('/api/friends')
+    this.friends = data
+  },
   data() {
     return {
       isPinning: false,
-      friends: dummyFriends,
+      friends: [],
       face_image_url: '', // 自分の顔写真、実際はサーバーからとってくる
     }
   },
