@@ -62,7 +62,7 @@ export default {
         date: f.pin
           ? this.$dayjs(f.pin.datetime).format('YYYY/MM/DD HH:mm')
           : '',
-        img: f.face_image_url,
+        img: f.face_image_url || '',
       }))
     },
     face_image_url() {
