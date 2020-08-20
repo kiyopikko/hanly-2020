@@ -71,7 +71,11 @@ export default {
     async pin() {
       this.isPinning = true
       const { lat, lng } = await this.$getLocation()
-      console.log('緯度：' + lat, '経度：' + lng) // 実際はサーバーに緯度・経度を送信
+      const { data } = await this.$axios.post('/api/my/pin', {
+        latitude: lat,
+        longitude: lng,
+      })
+      this.friends = this.friends.concat(data)
       this.isPinning = false
     },
   },
