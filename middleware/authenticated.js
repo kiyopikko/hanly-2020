@@ -11,6 +11,11 @@ export default async function ({ store, redirect, route, app: { $axios } }) {
     // トークンがない＝ユーザーが認証されていない
     return redirect('/signin')
   }
-  const { data } = await $axios.get('/api/me')
-  store.commit('me/setMe', data)
+
+  try {
+    const { data } = await $axios.get('/api/me')
+    store.commit('me/setMe', data)
+  } catch (e) {
+    redirect('/signin')
+  }
 }
