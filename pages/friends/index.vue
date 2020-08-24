@@ -1,47 +1,45 @@
 <template>
-  <div>
-    <pull-to :top-config="topConfig" :top-load-method="refresh">
-      <nuxt-link class="user" to="/me">
-        <img
-          class="user__icon"
-          :src="
-            face_image_url ||
-            'https://res.cloudinary.com/kiyopikko/image/upload/v1561617116/empty-user-image_o4ll8m.png'
-          "
+  <pull-to :top-config="topConfig" :top-load-method="refresh">
+    <nuxt-link class="user" to="/me">
+      <img
+        class="user__icon"
+        :src="
+          face_image_url ||
+          'https://res.cloudinary.com/kiyopikko/image/upload/v1561617116/empty-user-image_o4ll8m.png'
+        "
+      />
+      <div class="user__txt">マイページ</div>
+    </nuxt-link>
+    <div v-if="getFriends.length > 0" class="friends">
+      <h2 class="headline">友だち</h2>
+      <ul>
+        <FriendItem
+          v-for="friend in getFriends"
+          :key="friend.id"
+          :to="`/friends/${friend.id}`"
+          :nickname="friend.nickname"
+          :date="friend.date"
+          :img="friend.img"
         />
-        <div class="user__txt">マイページ</div>
-      </nuxt-link>
-      <div v-if="getFriends.length > 0" class="friends">
-        <h2 class="headline">友だち</h2>
-        <ul>
-          <FriendItem
-            v-for="friend in getFriends"
-            :key="friend.id"
-            :to="`/friends/${friend.id}`"
-            :nickname="friend.nickname"
-            :date="friend.date"
-            :img="friend.img"
-          />
-        </ul>
-      </div>
-      <div v-else class="noFriends">
-        <img
-          src="https://res.cloudinary.com/kiyopikko/image/upload/v1562219254/hanly-gray_2x_pdy6qo.png"
-          alt
-          :width="178"
-        />
-        <p class="txt">
-          右下のボタンからピンを打って近くの友だちを探しましょう
-        </p>
-      </div>
-    </pull-to>
+      </ul>
+    </div>
+    <div v-else class="noFriends">
+      <img
+        src="https://res.cloudinary.com/kiyopikko/image/upload/v1562219254/hanly-gray_2x_pdy6qo.png"
+        alt
+        :width="178"
+      />
+      <p class="txt">
+        右下のボタンからピンを打って近くの友だちを探しましょう
+      </p>
+    </div>
     <button
       class="pin"
       :class="isPinning ? 'isPinning' : ''"
       :disabled="isPinning"
       @click="pin"
     />
-  </div>
+  </pull-to>
 </template>
 
 <script>
@@ -103,6 +101,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wrap {
+  min-height: 100%;
+}
+
 .user {
   text-decoration: none;
   position: absolute;

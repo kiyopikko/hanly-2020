@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrap">
     <PersonDetail
       :nickname="nickname"
       :latitude="latitude"
@@ -42,3 +42,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.wrap {
+  padding-bottom: 2rem;
+}
+</style>
