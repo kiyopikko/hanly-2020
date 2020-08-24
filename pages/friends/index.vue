@@ -101,10 +101,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  min-height: 100%;
-}
-
 .user {
   text-decoration: none;
   position: absolute;
